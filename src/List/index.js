@@ -16,6 +16,11 @@ const Input = styled.input`
   padding-left: 10px;
   margin-left: 10px;
   background-color: #6638f0;
+  outline: none;
+  ::placeholder {
+    color: white;
+    opacity: 0.85;
+  }
 
   @media screen and (min-width: 480px) {
     padding: 0px;
@@ -40,6 +45,10 @@ function upperFirstChar(string) {
 
 const Wrapper = styled.div`
   width: 100%;
+  padding-bottom: 100px;
+  @media screen and (min-width: 480px) {
+    padding-bottom: 0px;
+  }
 `;
 
 const AddButton = styled.button`
@@ -96,7 +105,7 @@ export default class List extends React.Component {
           return <Item title={item} key={index} />;
         })}
         <Input
-          placeholder="Press Enter for add task"
+          placeholder="Enter your task"
           onKeyPress={this.handleAdd}
           id="inp"
           type="text"

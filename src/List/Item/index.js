@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import SVG from "./check.svg";
 
 const Item = styled.a`
   background-color: ${props => (props.cheked ? "none" : "white")};
@@ -17,9 +18,13 @@ const Item = styled.a`
 `;
 
 const ChecBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   border-radius: 100%;
   background-color: ${props => (props.cheked ? "transparent" : "#eaeaea")};
-  border: 1px solid ${props => (props.cheked ? "white" : "#636363")};
+  border: 1px solid ${props => (props.cheked ? "transparent" : "#636363")};
   padding: 0;
 
   width: 20px;
@@ -48,7 +53,9 @@ export default class Items extends React.Component {
   render() {
     return (
       <Item cheked={this.state.cheked} onClick={this.handleClick}>
-        <ChecBox cheked={this.state.cheked} />
+        <ChecBox cheked={this.state.cheked}>
+          {this.state.cheked ? <img src={SVG} /> : <div />}
+        </ChecBox>
         <Title cheked={this.state.cheked}>{this.props.title} </Title>
       </Item>
     );
