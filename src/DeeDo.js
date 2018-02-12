@@ -13,11 +13,16 @@ const AppWrapper = styled.section`
 `;
 
 const App = styled.div`
-  margin-top: 100px;
-  width: 500px;
-  background-color: #003650;
-  border-radius: 5px;
-  box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  border-radius: none;
+
+  @media screen and (min-width: 480px) {
+    margin-top: 100px;
+    width: 500px;
+    background-color: #003650;
+    border-radius: 5px;
+    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.25);
+  }
 `;
 
 const Title = styled.h3`
