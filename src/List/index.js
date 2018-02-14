@@ -23,6 +23,7 @@ const Input = styled.input`
   }
 
   @media screen and (min-width: 480px) {
+    bottom: 0px;
     padding: 0px;
     padding-top: 2px;
     margin: 10px;
@@ -72,45 +73,65 @@ const AddButton = styled.button`
 
 export default class List extends React.Component {
   state = {
-    list: ["Buy milk", "Call Andre"]
+    list: []
   };
 
-  handleAdd = e => {
+  isEnterPress = e => {
     if (e.key === "Enter") {
-      const newItem = upperFirstChar(document.getElementById("inp").value);
-      if (newItem === "" || newItem === " ") return;
-      const newMassive = this.state.list;
-      newMassive.push(newItem);
-      this.setState({ list: newMassive }, function() {
-        document.getElementById("inp").value = "";
-      });
-    } else {
+      this.handleAdd();
     }
   };
 
-  mobileAdd = () => {
-    const newItem = upperFirstChar(document.getElementById("inp").value);
-    if (newItem === "" || newItem === " ") return;
-    const newMassive = this.state.list;
-    newMassive.push(newItem);
-    this.setState({ list: newMassive }, function() {
-      document.getElementById("inp").value = "";
+  stateToStorage = () => {
+    this.state.list.map(function(item, index) {
+      localStorage.setItem("itemTitle" + index, item);
     });
   };
+
+  storageToState = () => {
+    var getStorageItems = [];
+    var newStateList = [];
+    for (var a = 0; a < localStorage.length; a++) {
+      getStorageItems.push(localStorage.getItem("itemTitle" + a));
+    }
+    getStorageItems.map(function(item, index) {
+      if (item !== null) {
+        newStateList.push(getStorageItems[index]);
+      }
+    });
+    this.setState({ list: newStateList }, () => {
+      console.log(this.state);
+    });
+  };
+
+  handleAdd = () => {
+    const newItem = upperFirstChar(document.getElementById("inp").value);
+    var newList = [];
+    newList = this.state.list;
+    newList.push(newItem);
+    this.setState({ list: newList }, function() {
+      document.getElementById("inp").value = "";
+      this.stateToStorage();
+    });
+  };
+
+  componentDidMount() {
+    this.storageToState();
+  }
 
   render() {
     return (
       <Wrapper>
         {this.state.list.map(function(item, index) {
-          return <Item title={item} key={index} />;
+          return <Item title={item} key={index} index={index} />;
         })}
         <Input
           placeholder="Enter your task"
-          onKeyPress={this.handleAdd}
+          onKeyPress={this.isEnterPress}
           id="inp"
           type="text"
         />
-        <AddButton onClick={this.mobileAdd}>Add</AddButton>
+        <AddButton onClick={this.handleAdd}>Add</AddButton>
       </Wrapper>
     );
   }
